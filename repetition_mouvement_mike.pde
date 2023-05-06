@@ -122,11 +122,17 @@ Sampler sampler;
 void setup() {  
   size( 800, 800, P3D );
   frameRate(30); // when size is set as P3D (3 dimension) we have 27 or 28 frame (loop) per seconde
-  sampler = new Sampler();  
+  sampler = new Sampler(); 
+  mouseY= height/2;
+
 }
 
 void draw() {
   background(50);
+   for (int i=0; i<=8; i++ ){ 
+    stroke(2);
+  line (0,height/8*i, width, height/8*i);
+  }
   textSize (20);
    //----------------------------------------
  // angleToInterpolate = calcAngle();
@@ -187,7 +193,7 @@ void mousePressed() {
 }
   
 void activeSampling() { 
-  if (measure==2 && actualSec!=lastSec && mouseRecorded == true) {
+  if (measure==0 && actualSec!=lastSec && mouseRecorded == true) {
      textSize(100);
     
      fill (0, 255, 0);
