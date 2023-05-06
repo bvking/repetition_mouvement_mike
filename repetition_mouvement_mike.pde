@@ -17,7 +17,6 @@ float mlerp(float x0, float x1, float t, float M ){
    return (x0 + t * dx + M) % M;
 }
 
-
 class Sample {
 int t;
 float x, y;
@@ -103,16 +102,13 @@ float t0 = s0.t;
 float t1 = s1.t;
 float dt = (now - t0) / (t1 - t0);
 
-
-//float x =lerp( s0.x, s1.x, dt );  // interpolation de base
+//float x =lerp( s0.x, s1.x, dt );  // interpolation without modulo
 //float y =lerp( s0.y, s1.y, dt ); // 
 
 float x =mlerp( s0.x, s1.x, dt, TWO_PI ); // interpolation with modulo, it's better
 float y =mlerp( s0.x, s1.x, dt, TWO_PI );
 
-
 movementInterpolated = y ;
-  // if (measure>7) { frameRate(10); }
 text (" mov " +  (movementInterpolated) , 100, 500);
 fill (255,255,255);
 circle ( 100* cos (movementInterpolated)+200, 100*sin (movementInterpolated)+200, 20);
@@ -126,12 +122,11 @@ Sampler sampler;
 void setup() {  
   size( 800, 800, P3D );
   frameRate(30); // when size is set as P3D (3 dimension) we have 27 or 28 frame (loop) per seconde
-  sampler = new Sampler();
-  
+  sampler = new Sampler();  
 }
 
 void draw() {
-  background( 0 );
+  background(50);
   textSize (20);
    //----------------------------------------
  // angleToInterpolate = calcAngle();
@@ -165,15 +160,15 @@ void draw() {
   text (measure, 100, 100 );
   actualSec =(int) (millis()*0.001);  // 
 
-
   activeSampling();
   stopSampling();
   
- 
- 
   if( bRecording) { // draw circle
  //   circle( mouseX, mouseY, 10 );
  //   sampler.addSample( mouseX, mouseY );
+     textSize(100);
+     fill (0, 255, 0);
+     text (measure, 200, 100 );
   sampler.addSample( angleToInterpolate, angleToInterpolate );
   }
   
@@ -192,17 +187,17 @@ void mousePressed() {
 }
   
 void activeSampling() { 
-  if (measure==0 && actualSec!=lastSec && mouseRecorded == true) {
+  if (measure==2 && actualSec!=lastSec && mouseRecorded == true) {
      textSize(100);
     
      fill (0, 255, 0);
-       text (measure, 200, 100 );
+     text (measure, 200, 100 );
   sampler.beginRecording();
   }
 }
 
 void stopSampling() { 
-  if (measure==7 && actualSec!=lastSec) {  
+  if (measure==4 && actualSec!=lastSec) {  
      textSize(100);
    
      fill (255, 0, 0); 
