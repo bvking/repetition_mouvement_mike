@@ -21,14 +21,8 @@ boolean mouseRecorded =  true;
 float movementInterpolated, angleToInterpolate;
 int numberOfSample;
 
-//--------------------        coordinates of an angle in radians
- public float calcAngle() {
- float a = atan2(mouseY-height/2, mouseX-width/2);
- if (a<0) {
-    a=map(a, -PI, 0, PI, TWO_PI);
-  }
-  return a;
-}
+//--------------------        coordinates of an angle in radians // no need here
+
 //--------------------        method of interpolation to return the position of (rotation) by adding modulo
  public float mlerp(float x0, float x1, float t, float M ){
    float dx = (x1 - x0 + 1.5f*M) % M - 0.5f*M;
@@ -134,8 +128,7 @@ text (" mov " +  (movementInterpolated) , 100, 500);
 fill (255,255,255);
 circle ( 100* cos (movementInterpolated)+200, 100*sin (movementInterpolated)+200, 20);
 stroke(255);
-}
-
+ }
 }
 
 Sampler sampler;
@@ -145,18 +138,18 @@ Sampler sampler;
   frameRate(30); // when size is set as P3D (3 dimension) we have 27 or 28 frame (loop) per seconde
   sampler = new Sampler(); 
   mouseY= height/2;
-
 }
 
  public void draw() {
   background(50);
    for (int i=0; i<=8; i++ ){ 
     stroke(2);
-  line (0,height/8*i, width, height/8*i);
+  line (0, height/8*i, width, height/8*i); // horizon
+  line (width/8*i, 0, width/8*i, height); // vertical
+
   }
   textSize (20);
    //----------------------------------------
- // angleToInterpolate = calcAngle();
   angleToInterpolate = (float) map (mouseY, 0, 200, 0, TWO_PI)%TWO_PI; 
   fill( 100, 0, 0);
   circle ( 100* cos (angleToInterpolate)+200, 100*sin (angleToInterpolate)+200, 20); 
