@@ -2,15 +2,10 @@ int actualSec,lastSec,measure,measureToStartRecording;
 boolean bRecording = false;
 boolean mouseRecorded =  true;
 float movementInterpolated, angleToInterpolate;
+int numberOfSample;
 
-//--------------------        coordinates of an angle in radians
-float calcAngle() {
- float a = atan2(mouseY-height/2, mouseX-width/2);
- if (a<0) {
-    a=map(a, -PI, 0, PI, TWO_PI);
-  }
-  return a;
-}
+//--------------------        coordinates of an angle in radians // no need here
+
 //--------------------        method of interpolation to return the position of (rotation) by adding modulo
 float mlerp(float x0, float x1, float t, float M ){
    float dx = (x1 - x0 + 1.5*M) % M - 0.5*M;
@@ -50,12 +45,15 @@ samples.add( new Sample( now - startTime, x, y ) );
 int fullTime() {
 return ( samples.size() > 1 ) ?
 samples.get( samples.size()-1 ).t : 0;
+
 }
 void beginPlaying() {
 startTime = millis();
 playbackFrame = 0;
 println( samples.size(), "samples over", fullTime(), "milliseconds" );
 if(samples.size() > 0){
+  numberOfSample=samples.size();
+  
 float deltax = samples.get(0).x - samples.get(samples.size()-1).x;
 float deltay = samples.get(0).y - samples.get(samples.size()-1).y;
 float sumdist = 0;
@@ -113,8 +111,7 @@ text (" mov " +  (movementInterpolated) , 100, 500);
 fill (255,255,255);
 circle ( 100* cos (movementInterpolated)+200, 100*sin (movementInterpolated)+200, 20);
 stroke(255);
-}
-
+ }
 }
 
 Sampler sampler;
@@ -124,7 +121,6 @@ void setup() {
   frameRate(30); // when size is set as P3D (3 dimension) we have 27 or 28 frame (loop) per seconde
   sampler = new Sampler(); 
   mouseY= height/2;
-
 }
 
 void draw() {
@@ -135,7 +131,6 @@ void draw() {
   }
   textSize (20);
    //----------------------------------------
- // angleToInterpolate = calcAngle();
   angleToInterpolate = (float) map (mouseY, 0, 200, 0, TWO_PI)%TWO_PI; 
   fill( 100, 0, 0);
   circle ( 100* cos (angleToInterpolate)+200, 100*sin (angleToInterpolate)+200, 20); 
@@ -182,8 +177,11 @@ void draw() {
   if( sampler.fullTime() > 0 )
         sampler.draw();
   }
-  println (frameCount + " " + movementInterpolated);
 
+  if(numberOfSample > 0){
+  
+  println (frameCount%numberOfSample+1 + " " + movementInterpolated);
+  }
 }
 
 void mousePressed() {
@@ -203,7 +201,7 @@ void activeSampling() {
 }
 
 void stopSampling() { 
-  if (measure==4 && actualSec!=lastSec) {  
+  if (measure==2 && actualSec!=lastSec) {  
      textSize(100);
    
      fill (255, 0, 0); 
