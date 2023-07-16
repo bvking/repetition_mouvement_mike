@@ -320,7 +320,7 @@ SamplerTheta sampler;
 }
 
  public void activeSampling() {
-  if (measure == 0 && actualSec != lastSec && mouseRecorded == true) {
+  if (measure == 1 && actualSec != lastSec && mouseRecorded == true) {
     textSize(100);
     fill(0, 255, 0);
     text(measure, 200, 100);
@@ -329,7 +329,7 @@ SamplerTheta sampler;
 }
 
  public void stopSampling() {
-  if (measure == 2 && actualSec != lastSec) {
+  if (measure == 6 && actualSec != lastSec) {
     textSize(100);
 
     fill(255, 0, 0);
